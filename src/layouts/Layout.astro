@@ -1,23 +1,80 @@
+---
+/**
+ * Base layout — global brutalist frame.
+ *
+ *  Fonts (self-hosted, no CDN): Inter (body), Archivo (display), Space Mono
+ *  (labels). Mounts always-on islands: preloader, smooth scroll, reactive
+ *  cursor, magnetic fields, scroll choreography, and the [data-reveal] observer
+ *  — all booted from ONE bundled module script. Static sections ship no JS.
+ */
+import '@fontsource-variable/inter';
+import '@fontsource-variable/archivo';
+import '@fontsource/space-mono/400.css';
+import '@fontsource/space-mono/700.css';
+import '../styles/global.css';
+
+import SiteHeader from '../components/SiteHeader.astro';
+import CustomCursor from '../components/CustomCursor.astro';
+import Preloader from '../components/Preloader.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Richie Patil — Backend & ML Engineer',
+  description = 'Richie Patil — Backend Developer & ML Engineer based in Mumbai. I engineer robust backend systems and intelligent ML solutions: scalable APIs, data pipelines, and applied generative AI.',
+} = Astro.props;
+---
+
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b0b0b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <title>{title}</title>
+    <!-- Set <html class="js"> before paint: kinetic words/reveals hide only
+         when JS is present, and the preloader only covers when JS can remove it. -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <Preloader />
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+    <!-- Atmosphere: exposed grid rules + film grain (pure CSS, no JS) -->
+    <div class="grid-lines" aria-hidden="true"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <SiteHeader />
+
+    <main>
+      <slot />
+    </main>
+
+    <CustomCursor />
+
+    <!-- ONE global client module: every site-wide island boots here. -->
+    <script>
+      import { initSmoothScroll } from '../scripts/smooth-scroll';
+      import { initCursor } from '../scripts/cursor';
+      import { initMagnetic } from '../scripts/magnetic';
+      import { initReveal } from '../scripts/reveal';
+      import { initScrollFx } from '../scripts/scroll-fx';
+      import { initPreloader } from '../scripts/preloader';
+
+      initSmoothScroll();
+      initCursor();
+      initMagnetic();
+      initReveal();
+      initScrollFx();
+      initPreloader(); // dispatches 'app:reveal' when the intro finishes
+    </script>
+  </body>
+</html>

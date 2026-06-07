@@ -1,0 +1,120 @@
+---
+/**
+ * Career history — brutalist full-bleed ledger.
+ * Hard-ruled rows; the current role carries the accent + a "Now" tag.
+ * Section title reveals kinetically ([data-split]); rows fade in ([data-reveal]).
+ */
+import { experience } from '../data/portfolio';
+---
+
+<section class="exp" id="experience">
+  <div class="exp__intro">
+    <p class="section-tag" data-reveal>03 / Career</p>
+    <h2 class="exp__title" data-split>Career history</h2>
+  </div>
+
+  <ol class="exp__list">
+    {
+      experience.map((job, i) => {
+        const isCurrent = job.period.includes('Present');
+        return (
+          <li class:list={['erow', { 'is-current': isCurrent }]} data-reveal style={`--i: ${i}`}>
+            <span class="erow__no u-mono">{String(i + 1).padStart(2, '0')}</span>
+            <div class="erow__head">
+              <h3 class="erow__role">{job.role}</h3>
+              <p class="erow__co">
+                {job.company}
+                {isCurrent && <span class="erow__now u-mono">Now</span>}
+              </p>
+            </div>
+            <p class="erow__period u-mono">{job.period}</p>
+            <p class="erow__summary">{job.summary}</p>
+          </li>
+        );
+      })
+    }
+  </ol>
+</section>
+
+<style>
+  .exp { position: relative; z-index: 2; padding-block: clamp(5rem, 3rem + 7vw, 9rem) 0; }
+
+  .exp__intro {
+    max-width: 1500px;
+    margin-inline: auto;
+    padding: 0 var(--gutter) clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  }
+  .exp__title {
+    margin-top: 1.6rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.4rem, 1.2rem + 6vw, 7rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  .exp__list { border-top: var(--bw) solid var(--line-2); }
+
+  .erow {
+    display: grid;
+    grid-template-columns: 56px minmax(200px, 1.3fr) 168px 1.7fr;
+    gap: 1.4rem 2rem;
+    align-items: start;
+    padding: clamp(1.6rem, 1rem + 2.5vw, 2.8rem) var(--gutter);
+    border-bottom: var(--bw) solid var(--line-2);
+    transition: background 0.3s var(--ease);
+  }
+  .erow__no { font-size: var(--step--1); color: var(--fg-faint); padding-top: 0.5em; }
+  .erow.is-current .erow__no { color: var(--accent); }
+
+  .erow__role {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 1rem + 1.6vw, 2.4rem);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+  }
+  .erow__co {
+    margin-top: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7em;
+    color: var(--fg-dim);
+  }
+  .erow__now {
+    padding: 0.2em 0.6em;
+    border: var(--bw) solid var(--accent);
+    color: var(--accent);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .erow__period {
+    padding-top: 0.5em;
+    font-size: var(--step--1);
+    color: var(--fg-dim);
+    white-space: nowrap;
+  }
+  .erow__summary {
+    max-width: 60ch;
+    color: var(--fg-dim);
+    line-height: 1.55;
+  }
+
+  @media (hover: hover) {
+    .erow:hover { background: var(--bg-2); }
+  }
+
+  /* --- Mobile: collapse the ledger to stacked blocks ------------------- */
+  @media (max-width: 800px) {
+    .erow {
+      grid-template-columns: auto 1fr;
+      gap: 0.5rem 1.2rem;
+    }
+    .erow__head { grid-column: 2; }
+    .erow__period { grid-column: 2; padding-top: 0; order: 3; }
+    .erow__summary { grid-column: 2; order: 4; margin-top: 0.4rem; }
+  }
+</style>

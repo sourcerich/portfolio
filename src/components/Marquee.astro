@@ -1,0 +1,51 @@
+---
+/**
+ * Infinite marquee ticker (CSS-only, seamless via two identical groups).
+ * Static, ships no JS. Decorative → aria-hidden.
+ */
+const items = [
+  'Backend Engineering',
+  'Machine Learning',
+  'Applied GenAI',
+  'Data Pipelines',
+  'Mumbai · IND',
+  'Available 2026',
+];
+const groups = [0, 1]; // duplicate the set so -50% wraps seamlessly
+---
+
+<div class="marquee" data-marquee aria-hidden="true">
+  <div class="marquee__track">
+    {
+      groups.map(() => (
+        <div class="marquee__group">
+          {items.map((item) => (
+            <span class="marquee__cell">
+              <span class="marquee__text u-display">{item}</span>
+              <span class="marquee__star">✺</span>
+            </span>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    border-block: var(--bw) solid var(--line-2);
+    padding-block: clamp(0.7rem, 0.4rem + 1vw, 1.1rem);
+    background: var(--bg);
+  }
+  .marquee__group { display: flex; align-items: center; }
+  .marquee__cell { display: inline-flex; align-items: center; }
+  .marquee__text {
+    font-size: clamp(1.3rem, 0.8rem + 2.4vw, 3rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    padding-inline: clamp(1rem, 3vw, 2.5rem);
+  }
+  .marquee__star { color: var(--accent); font-size: 1rem; }
+</style>

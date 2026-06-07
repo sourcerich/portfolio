@@ -1,0 +1,13 @@
+---
+/**
+ * Custom cursor — markup only (ships no JS of its own).
+ * It is brought to life by initCursor() in the layout's single global client
+ * script, and stays inert unless that opts in (fine pointer required), so
+ * touch and keyboard users keep their native cursor untouched.
+ */
+---
+
+<div class="cursor" aria-hidden="true">
+  <div class="cursor__dot"></div>
+  <div class="cursor__ring"><span class="cursor__label"></span></div>
+</div>

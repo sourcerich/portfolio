@@ -1,0 +1,73 @@
+---
+/**
+ * Brutalist fixed top bar — hairline-bordered, monospace, three zones.
+ * Static markup (ships no JS); the mark is magnetic, the résumé is labeled.
+ */
+import { profile } from '../data/portfolio';
+---
+
+<header class="site-header u-mono">
+  <a class="site-header__mark" href="#hero" data-magnetic aria-label={`${profile.name} — top`}>
+    <span data-magnetic-inner>RP<span class="site-header__star">✳</span></span>
+  </a>
+
+  <nav class="site-header__nav" aria-label="Primary">
+    <a href="#work">Work</a>
+    <a href="#experience">Experience</a>
+    <a href={profile.resumeUrl} target="_blank" rel="noopener" download data-cursor-label="Open">Résumé↗</a>
+  </nav>
+
+  <span class="site-header__status">
+    <span class="site-header__dot" aria-hidden="true"></span>
+    {profile.available ? 'Available 2026' : 'Booked'}
+  </span>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: clamp(0.9rem, 0.6rem + 1vw, 1.4rem) var(--gutter);
+    border-bottom: var(--bw) solid var(--line-2);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: var(--step--1);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .site-header__mark {
+    font-weight: 700;
+    color: var(--fg);
+    letter-spacing: 0.12em;
+  }
+  .site-header__star { color: var(--accent); }
+
+  .site-header__nav { display: flex; gap: clamp(0.9rem, 2vw, 2rem); }
+  .site-header__nav a { color: var(--fg-dim); transition: color 0.25s var(--ease); }
+  .site-header__nav a:hover { color: var(--fg); }
+
+  .site-header__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    color: var(--fg-dim);
+  }
+  .site-header__dot {
+    width: 7px;
+    height: 7px;
+    background: var(--accent);
+    animation: blink 2.4s steps(1, end) infinite;
+  }
+  @keyframes blink { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.25; } }
+
+  /* The nav is the first thing to drop on small screens. */
+  @media (max-width: 640px) {
+    .site-header__nav { display: none; }
+  }
+</style>

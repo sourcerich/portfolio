@@ -1,0 +1,61 @@
+---
+/**
+ * Intro preloader overlay. Driven by scripts/preloader.ts.
+ * Markup only; hidden entirely for no-JS users so it never traps the page.
+ */
+import { profile } from '../data/portfolio';
+---
+
+<div class="preloader" data-preloader aria-hidden="true">
+  <div class="preloader__inner">
+    <span class="preloader__name u-mono">{profile.name} — Portfolio</span>
+    <span class="preloader__count u-display" data-preloader-count>000</span>
+  </div>
+  <div class="preloader__bar"><span data-preloader-fill></span></div>
+</div>
+
+<style>
+  .preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    will-change: transform;
+  }
+  .preloader__inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: var(--gutter);
+  }
+  .preloader__name {
+    font-size: var(--step--1);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    padding-bottom: 0.6em;
+  }
+  .preloader__count {
+    font-size: clamp(3.5rem, 16vw, 11rem);
+    font-weight: 800;
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+  }
+  .preloader__bar {
+    height: 2px;
+    background: var(--line);
+  }
+  .preloader__bar > span {
+    display: block;
+    height: 100%;
+    width: var(--p, 0%);
+    background: var(--accent);
+  }
+  /* No-JS: never cover the page. */
+  html:not(.js) .preloader { display: none; }
+</style>

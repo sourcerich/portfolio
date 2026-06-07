@@ -1,11 +1,19 @@
 ---
-import Welcome from '../components/Welcome.astro';
+/**
+ * Home page. Assembled from static .astro components; only the interactive
+ * islands (hero canvas, cursor, smooth scroll) ship JavaScript.
+ * Further sections — Work, About, Contact — land in upcoming turns.
+ */
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Hero from '../components/Hero.astro';
+import Marquee from '../components/Marquee.astro';
+import Work from '../components/Work.astro';
+import Experience from '../components/Experience.astro';
 ---
 
 <Layout>
-	<Welcome />
+  <Hero />
+  <Marquee />
+  <Work />
+  <Experience />
 </Layout>
